@@ -1,0 +1,40 @@
+EE 555 Project
+Wenhan Tang 1210637460
+Chenguang He 8977866134
+
+Folder part_1 contains 3 other files:
+of_tutorial.py - this file is from Create a Learning Switch section. We comment act_like_hub method and add act_like_switch method to create the learning switch
+simple_router.py - this file is the controller of the router.
+part1_topo.py - this file is the topology for router.
+
+To Run:
+%of_tutorial.py:
+%open two terminals
+%in the first terminal 
+%copy of_tutorial.py to ~/pox/pox/misc
+./pox.py log.level --DEBUG misc.of_tutorial
+%in the second terminal
+sudo mn -c
+sudo mn --topo single,3 --mac --switch ovsk --controller remote
+xterm h1 h2 h3
+%xterm h2
+tcpdump -XX -n -i h2-eth0
+%xterm h3
+tcpdump -XX -n -i h3-eth0
+%xterm h1
+ping -c1 10.0.0.5
+ping -c1 10.0.0.2
+ping -c1 10.0.0.3
+
+%simple_router.py:
+%open two terminals
+%in the first terminal
+%copy simple_router.py to ~/pox/pox/misc
+./pox.py log.level --DEBUG misc.simple_router misc.full_payload  
+%in the second terminal 
+%copy part1_topo.py to root 
+sudo mn -c
+sudo mn --custom part1_topo.py --topo Part1_Topo --mac --controller=remote,ip=127.0.0.1
+pingall 
+
+simple_router.py used reference from https://github.com/zhan849/ee555/blob/master/part1/router.py
